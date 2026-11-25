@@ -31,6 +31,12 @@ def main() -> None:
     # The grader collects outputs as another user: leave the file
     # readable by everyone.
     os.chmod(path, 0o644)
+    # Verify the graded file before exiting: read it back and confirm
+    # it holds exactly the joke, within the 200-character gate.
+    with open(path, encoding="utf-8") as f:
+        written = f.read()
+    if written != JOKE or not 1 <= len(written) <= 200:
+        raise SystemExit(f"verification failed for {path}")
     print(f"wrote {len(JOKE)} characters to {path}")
 
 
